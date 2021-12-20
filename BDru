@@ -1,0 +1,419 @@
+#include <iostream>
+#include<string>
+#include <fstream>
+#include<vector>
+#include <cstdlib>
+#include <iomanip> 
+using namespace std;
+class Table {
+public:
+    vector <vector <string> > tab;
+    int col, str = 0;
+    int zag1[100];
+    string zag[100];
+    virtual void newst() = 0;
+    void delst();
+    void show();
+    void shownb();
+};
+void Table::delst()
+{
+    int n, k;
+    cout << endl << "Введите номер удаляемой строки" << endl;
+    cin >> n;
+    n--;
+    while (n <= str - 2)
+    {
+        for (int j = 0; j <= col; j++)
+            tab[n][j] = tab[n + 1][j];
+        n++;
+    }
+    str--;
+}
+void Table::show()
+{
+    string h = "";
+    int k = 0;
+    for (int i = 0; i <= col; i++)
+    {
+        for (k = zag[i].size(); k <= zag1[i]; k++)
+        {
+            cout << " ";
+            h = h + "-";
+        }
+        for (int j = 0; j < zag[i].size(); j++)
+            h = h + "-";
+        cout << zag[i] << " | ";
+        h = h + "---";
+    }
+    cout << endl << h << endl;
+    for (int i = 0; i < str; i++)
+    {
+        for (int j = 0; j <= col; j++)
+        {
+            for (k = tab[i][j].size(); k <= zag1[j]; k++)
+            {
+                cout << " ";
+            }
+            cout << tab[i][j] << " | ";
+        }
+        cout << endl << h << endl;
+    }
+}
+void Table::shownb()
+{
+    string h = "";
+    int k = 0;
+    cout << "  ";
+    for (int i = 0; i <= col; i++)
+    {
+        for (k = zag[i].size(); k <= zag1[i]; k++)
+        {
+            cout << " ";
+            h = h + "-";
+        }
+        for (int j = 0; j < zag[i].size(); j++)
+            h = h + "-";
+        cout << zag[i] << " | ";
+        h = h + "---";
+    }
+    cout << endl << h << endl;
+    for (int i = 0; i < str; i++)
+    {
+        cout << i + 1 << "|";
+        for (int j = 0; j <= col; j++)
+        {
+            for (k = tab[i][j].size(); k <= zag1[j]; k++)
+            {
+                cout << " ";
+            }
+            cout << tab[i][j] << " | ";
+        }
+        cout << endl << h << endl;
+    }
+}
+class Students : public Table
+{
+public:
+    void newst();
+    Students();
+};
+Students::Students()
+{
+    zag[0] = "ID"; zag1[0] = 4;
+    zag[1] = "Name"; zag1[1] = 20;
+    zag[2] = "Surname"; zag1[2] = 20;
+    zag[3] = "Otchestvo"; zag1[3] = 20;
+    zag[4] = "Age"; zag1[4] = 3;
+    zag[5] = "Class"; zag1[5] = 3;
+    ifstream fin;
+    col = 6;
+    int i = 0;
+    string a;
+    fin.open("students.txt");
+    fin >> a;
+    while (!fin.eof())
+    {
+        vector <string> vec;
+        for (int j = 0; j < 6; j++)
+        {
+            vec.push_back(a);
+            fin >> a;
+        }
+        tab.push_back(vec);
+        i++;
+    }
+    fin.close();
+    col = 5;
+    str = i;
+}
+void Students::newst()
+{
+    vector <string> vec;
+    string a;
+    string w[6];
+    w[1] = "Введите фамилию";
+    w[2] = "Введите имя";
+    w[3] = "Введите отчество";
+    w[4] = "Введите возраст";
+    w[5] = "Введите классс";
+    w[0]= "Введите ID";
+    for (int j = 0; j < 6; j++)
+    {
+        cout << w[j] << endl;
+        cin >> a;
+        vec.push_back(a);
+    }
+    tab.push_back(vec);
+    str++;
+}
+class Subjects : public Table
+{
+public:
+    void newst();
+    Subjects();
+};
+Subjects::Subjects()
+{
+    zag[0] = "ID"; zag1[0] = 7;
+    zag[1] = "Subject"; zag1[1] = 20;
+    ifstream fin;
+    col = 2;
+    int i = 0;
+    string a;
+    fin.open("subjects.txt");
+    while (!fin.eof())
+    {
+        vector <string> vec;
+        for (int j = 0; j < 2; j++)
+        {
+            fin >> a;
+            vec.push_back(a);
+
+        }
+        tab.push_back(vec);
+        i++;
+    }
+    fin.close();
+    col = 1;
+    str = i;
+}
+void Subjects::newst()
+{
+    vector <string> vec;
+    string a,w[2];
+    w[0] = "Введите ID предмета";
+    w[1] = "Введите название предмета";
+    for (int j = 0; j < 2; j++)
+    {
+        cout <<w[j] << endl;
+        cin >> a;
+        vec.push_back(a);
+    }
+    tab.push_back(vec);
+    str++;
+}
+class Marks : public Table
+{
+public:
+    void newst();
+    Marks();
+};
+Marks::Marks()
+{
+    zag[0] = "Subject"; zag1[0] = 7;
+    zag[1] = "Student"; zag1[1] = 7;
+    zag[2] = "Mark"; zag1[2] = 7;
+    ifstream fin;
+    col = 2;
+    int i = 0;
+    string a;
+    fin.open("marks.txt");
+    while (!fin.eof())
+    {
+        vector <string> vec;
+        for (int j = 0; j < 3; j++)
+        {
+            fin >> a;
+            vec.push_back(a);
+
+        }
+        tab.push_back(vec);
+        i++;
+    }
+    fin.close();
+    col = 2;
+    str = i;
+}
+void Marks::newst()
+{
+    vector <string> vec;
+    string a;
+    int l = col + 1;
+    string k=to_string(l);
+    vec.push_back(k);
+    string p, s;
+    cout << "Введите ID предмета" << endl;
+    cin >> p;
+    cout << "Введите ID ученика" << endl;
+    vec.push_back(p);
+    cin >> s;
+    vec.push_back(s);
+    cout << "Введите оценку" << endl;
+    cin >> a;
+    vec.push_back(a);
+    tab.push_back(vec);
+    str++;
+}
+vector <float> arifm(string id, Table& sb, Table& mk)
+{
+    float a, b, c, d, e, f;
+    vector <float> q;
+    for (int j = 0; j < sb.str; j++)
+    {
+        a = 0;
+        b = 0;
+        for (int k = 0; k < mk.str; k++)
+        {
+            if ((mk.tab[k][0] == sb.tab[j][0]) && (mk.tab[k][1] == id))
+            {
+                a = a + atof(mk.tab[k][2].c_str());
+                b++;
+            }
+        }
+        if (b != 0)
+            c = a / (b);
+        else
+            c = 0 / 1.;
+
+        q.push_back(c);
+    }
+    return q;
+}
+vector <vector <string>> sort(vector<vector <string>> q)
+{
+    for (int i = 0; i < q.size(); i++) {
+        for (int j = 0; j < q.size()-1; j++) {
+            if (q[j][1] > q[j + 1][1]) {
+                string b = q[j][1]; 
+                q[j][1] =q[j + 1][1]; 
+                q[j + 1][1] = b;
+                string a = q[j][0];
+                q[j][0] = q[j + 1][0];
+                q[j + 1][0] = a;
+            }
+        }
+    }
+    return q;
+}
+void out(Table& st, Table& sb, Table& mk)
+{
+    ofstream file;
+    file.open("output.txt");
+    string h = "", s = "", m;
+    vector <float> q;
+    vector <vector <string>> st1;
+    vector <string> w;
+    int a, b, c;
+    int k = 0;
+    file << "                           Name | ";
+    for (int i = 0; i < sb.str; i++)
+        file << sb.tab[i][1].substr(0, 4) << " | ";
+    file << endl;
+    w.push_back("0");
+    w.push_back("0");
+    for (int i = 0; i < st.str; i++)
+    {
+        s = st.tab[i][1] + " " + st.tab[i][2] + " " + st.tab[i][3];
+        w[0]=st.tab[i][0];
+        w[1] = s;
+        st1.push_back(w);
+    }
+    st1 = sort(st1);
+    for (int i = 0; i < st1.size(); i++)
+    {
+        for (int j = st1[i][1].size(); j < 31; j++)
+            file << " ";
+        file << st1[i][1];
+        file << " |";
+        s = st1[i][0];
+        q = arifm(s, sb, mk);
+        for (int j = 0; j < q.size(); j++)
+        {
+
+            file << " ";
+            file << fixed << setprecision(2) << q[j];
+            file << " |";
+        }
+        file << endl;
+    }
+    file.close();
+}
+void play(Table& st, Table& sb, Table& mk)
+{
+    cout << "Выберите функцию" << endl;
+    cout << "1. Посмотреть список учеников" << endl;
+    cout << "2. Посмотреть список предметов" << endl;
+    cout << "3. Посмотреть список оценок" << endl;
+    cout << "4. Добавить запись" << endl;
+    cout << "5. Удалить запись" << endl;
+    cout << "6. Создать отчетный файл" << endl;
+    int a, b;
+    string c,d;
+    cin >> a;
+    system("cls");
+    switch (a)
+    {
+    case 1:
+        st.show();
+        break;
+    case 2:
+        sb.show();
+        break;
+    case 3:
+        mk.show();
+        break;
+    case 4:
+        cout << "1. Добавить ученика" << endl << "2. Добавить предмет" << endl << "3. Добавить оценку" << endl;
+        cin >> b;
+        switch (b)
+        {
+        case 1:
+            st.newst();
+            break;
+        case 2:
+            sb.newst();
+            break;
+        case 3:
+            sb.show();
+            st.show();
+            mk.newst();
+            break;
+        }
+        cout << "Запись добавлена" << endl;
+        break;
+    case 5:
+        cout << "1. Удалить ученика" << endl << "2. Удалить предмет" << endl << "3. Удалить оценку" << endl;
+        cin >> b;
+        switch (b)
+        {
+        case 1:
+            st.shownb();
+            st.delst();
+            break;
+        case 2:
+            sb.shownb();
+            sb.delst();
+            break;
+        case 3:
+            mk.shownb();
+            mk.delst();
+            break;
+        }
+        cout << "Запись удалена" << endl;
+        break;
+    case 6:
+        out(st, sb, mk);
+        cout << "Файл создан" << endl;
+        break;
+    }
+}
+void start()
+{
+setlocale(LC_ALL, "Russian");
+    Students n;
+    Subjects w;
+    Marks a;
+    while (true)
+    {
+        play(n, w, a);
+        cin.get();
+        cout << "Нажмите Enter" << endl;
+        cin.get();
+        system("cls");
+    }
+}
+int main()
+{
+    start();
+}
