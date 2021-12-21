@@ -28,7 +28,21 @@ void Table::delst()
             tab[n][j] = tab[n + 1][j];
         n++;
     }
+    ofstream file;
+    if(col==5)
+        file.open("students.txt");
+    if(col==2)
+        file.open("subjects.txt");
+    if(col==5)
+        file.open("marks.txt");
     str--;
+    for(int i=0;i<str;i++)
+    {
+        for(int j=0;j<6;j++)
+            file<<tab[i][j]<<" ";
+        file<<endl;
+    }
+    file.close();
 }
 void Table::show()
 {
@@ -130,6 +144,8 @@ Students::Students()
 void Students::newst()
 {
     vector <string> vec;
+    ofstream file;
+    file.open("students.txt");
     string a;
     string w[6];
     w[1] = "Enter last name";
@@ -138,10 +154,17 @@ void Students::newst()
     w[4] = "Enter age";
     w[5] = "Enter class";
     w[0]= "Enter ID";
+    for(int i=0;i<str;i++)
+    {
+        for(int j=0;j<6;j++)
+            file<<tab[i][j]<<" ";
+        file<<endl;
+    }
     for (int j = 0; j < 6; j++)
     {
         cout << w[j] << endl;
         cin >> a;
+        file <<a<<" ";
         vec.push_back(a);
     }
     tab.push_back(vec);
