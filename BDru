@@ -4,6 +4,7 @@
 #include<vector>
 #include <cstdlib>
 #include <iomanip>
+#include <sstream>
 
 using namespace std;
 class Table {
@@ -30,18 +31,21 @@ void Table::delst()
         n++;
     }
     ofstream file;
-    if(col==5)
+    if (col == 5)
         file.open("students.txt");
-    if(col==2)
+    if (col == 1)
         file.open("subjects.txt");
-    if(col==5)
+    if (col == 2)
         file.open("marks.txt");
     str--;
-    for(int i=0;i<str;i++)
+    for (int i = 0; i < str; i++)
     {
-        for(int j=0;j<6;j++)
-            file<<tab[i][j]<<" ";
-        file<<endl;
+        for (int j = 0; j <= col; j++)
+        {
+            file << tab[i][j] << " ";
+            cout << tab[i][j] << endl;
+        }
+        file << endl;
     }
     file.close();
 }
@@ -155,18 +159,18 @@ void Students::newst()
     w[3] = "Введите отчество";
     w[4] = "Введите возраст";
     w[5] = "Введите класс";
-    w[0]= "Введите ID";
-    for(int i=0;i<str;i++)
+    w[0] = "Введите ID";
+    for (int i = 0; i < str; i++)
     {
-        for(int j=0;j<6;j++)
-            file<<tab[i][j]<<" ";
-        file<<endl;
+        for (int j = 0; j < 6; j++)
+            file << tab[i][j] << " ";
+        file << endl;
     }
     for (int j = 0; j < 6; j++)
     {
         cout << w[j] << endl;
         cin >> a;
-        file <<a<<" ";
+        file << a << " ";
         vec.push_back(a);
     }
     tab.push_back(vec);
@@ -208,20 +212,20 @@ void Subjects::newst()
     ofstream file;
     file.open("subjects.txt");
     vector <string> vec;
-    string a,w[2];
+    string a, w[2];
     w[0] = "Введите ID предмета";
     w[1] = "Введите название предмета";
-    for(int i=0;i<str;i++)
+    for (int i = 0; i < str; i++)
     {
-        for(int j=0;j<2;j++)
-            file<<tab[i][j]<<" ";
-        file<<endl;
+        for (int j = 0; j < 2; j++)
+            file << tab[i][j] << " ";
+        file << endl;
     }
     for (int j = 0; j < 2; j++)
     {
-        cout <<w[j] << endl;
+        cout << w[j] << endl;
         cin >> a;
-        file<<a<<" ";
+        file << a << " ";
         vec.push_back(a);
     }
     tab.push_back(vec);
@@ -257,36 +261,36 @@ Marks::Marks()
         i++;
     }
     fin.close();
-    col = 2;
+    col =2;
     str = i;
 }
-#include <sstream>
 void Marks::newst()
 {
     ofstream file;
     file.open("marks.txt");
     vector <string> vec;
-    string a,s,p;
-    for(int i=0;i<str;i++)
+    string a, s, p;
+    for (int i = 0; i < str; i++)
     {
-        for(int j=0;j<3;j++)
-            file<<tab[i][j]<<" ";
-        file<<endl;
+        for (int j = 0; j < 3; j++)
+            file << tab[i][j] << " ";
+        file << endl;
     }
     cout << "Введите ID предмета" << endl;
     cin >> p;
-    file<<p<<" ";
+    file << p << " ";
     cout << "Введите ID ученика" << endl;
     vec.push_back(p);
     cin >> s;
     vec.push_back(s);
-    file<<s<<" ";
+    file << s << " ";
     cout << "Введите оценку" << endl;
     cin >> a;
-    file<<a<<" ";
+    file << a << " ";
     vec.push_back(a);
     tab.push_back(vec);
     str++;
+    file.close();
 }
 vector <float> arifm(string id, Table& sb, Table& mk)
 {
@@ -316,10 +320,10 @@ vector <float> arifm(string id, Table& sb, Table& mk)
 vector <vector <string> > sort(vector <vector <string> > q)
 {
     for (int i = 0; i < q.size(); i++) {
-        for (int j = 0; j < q.size()-1; j++) {
+        for (int j = 0; j < q.size() - 1; j++) {
             if (q[j][1] > q[j + 1][1]) {
                 string b = q[j][1];
-                q[j][1] =q[j + 1][1];
+                q[j][1] = q[j + 1][1];
                 q[j + 1][1] = b;
                 string a = q[j][0];
                 q[j][0] = q[j + 1][0];
@@ -348,7 +352,7 @@ void out(Table& st, Table& sb, Table& mk)
     for (int i = 0; i < st.str; i++)
     {
         s = st.tab[i][1] + " " + st.tab[i][2] + " " + st.tab[i][3];
-        w[0]=st.tab[i][0];
+        w[0] = st.tab[i][0];
         w[1] = s;
         st1.push_back(w);
     }
@@ -382,9 +386,9 @@ void play(Table& st, Table& sb, Table& mk)
     cout << "5. Удалить запись" << endl;
     cout << "6. Создать отчетный файл" << endl;
     int a, b;
-    string c,d;
+    string c, d;
     cin >> a;
-    system ("clear");
+    system("cls");
     switch (a)
     {
     case 1:
@@ -443,7 +447,7 @@ void play(Table& st, Table& sb, Table& mk)
 }
 void start()
 {
-setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "Russian");
     Students n;
     Subjects w;
     Marks a;
@@ -453,7 +457,7 @@ setlocale(LC_ALL, "Russian");
         cin.get();
         cout << "Нажмите Enter" << endl;
         cin.get();
-        system ("clear");
+        system("cls");
     }
 }
 int main()
